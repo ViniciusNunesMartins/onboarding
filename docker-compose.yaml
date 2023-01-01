@@ -1,0 +1,32 @@
+version: '3'
+
+volumes:
+  database_data:
+  cache_data:
+
+
+services:
+  api:
+    container_name: API
+    build: ./api
+    ports:
+      - 8000:8000
+    depends_on:
+      - database
+      - cache
+  
+  database:
+    container_name: DATABASE
+    build: ./database
+    ports:
+      - 5432:5432
+    volumes:
+      - database_data:/var/lib/postgresql/data
+
+  cache:
+    container_name: CACHE
+    build: ./cache
+    ports:
+      - 6379:6379
+    volumes:
+      - cache_data:/data
